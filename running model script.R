@@ -1,0 +1,178 @@
+# install.packages("devtools")
+devtools::install_github("GLEON/GLM3r")
+install.packages('remotes')
+remotes::install_github('usgs-r/glmtools')
+# install.packages("devtools")
+devtools::install_github("GLEON/GLMr")
+
+library(GLM3r)
+library(devtools)
+library(glmtools)
+library(GLMr)
+library(lubridate)
+
+nml_template_path <- function(){
+  return(system.file('GLM/glm3.nml', package=packageName()))
+  
+}
+
+
+sim_folder <- 'M:/Dissertation-main/GLM/Dissertation-main/GLM'
+list.files()
+
+Sys.setenv(GLM_PATH = file.path(sim_folder, 'glm.exe'))
+
+run_glm <- function(sim_folder = '.', verbose=TRUE, system.args=character()) {
+  
+  # verbose true = print output into R console
+  
+  # Check for glm2.nml
+  if(!'glm3.nml' %in% list.files(sim_folder)){
+    stop('You must have a valid glm3.nml file in your sim_folder: ', sim_folder)
+  }
+  
+  # Windows-specific run
+  if(.Platform$pkgType == "win.binary"){
+    return(run_glm3.0_Win(sim_folder, verbose, system.args))
+  }
+}
+
+
+# Internal function to call system2 for GLM
+glm.systemcall <- function(sim_folder, glm_path, verbose, system.args) {
+  
+  if(nchar(Sys.getenv("GLM_PATH")) > 0){
+    glm_path <- Sys.getenv("GLM_PATH")
+    warning(paste0(
+      "Custom path to GLM executable set via 'GLM_PATH' environment variable as: ", 
+      glm_path))
+  }
+  
+  origin <- getwd()
+  setwd(sim_folder)
+  
+  
+  tryCatch({
+    if (is.null(verbose)){
+      out <- system2(glm_path, wait = TRUE, stdout = TRUE, stderr = NULL, args = system.args)
+    } else if (verbose) {
+      out <- system2(glm_path, wait = TRUE, stdout = "", stderr = "", args = system.args)
+    } else {
+      out <- system2(glm_path, wait = TRUE, stdout = NULL, stderr = NULL, args = system.args)
+    }
+    return(out)
+  }, error = function(err) {
+    stop(paste("GLM_ERROR:", err$message))
+    setwd(origin)
+  })
+}
+
+# GLM runner
+run_glm3.0_Win <- function(sim_folder, verbose, system.args){
+  
+  # Use glm.exe from simulation folder
+  glm_path <- file.path(sim_folder, "glm.exe")
+  if(!file.exists(glm_path)){
+    stop("GLM executable not found at: ", glm_path)
+  }
+  
+  glm.systemcall(sim_folder, glm_path, verbose, system.args)
+}
+
+# simpler?
+sim_folder <- "M:/Dissertation-main/GLM/Dissertation-main/GLM"
+nml_file <- file.path(sim_folder, "glm3.nml")
+
+# Run GLM
+
+run_glm(sim_folder)
+list.files(sim_folder)
+
+rm(list = ls())
+# Source - https://stackoverflow.com/q
+# Posted by fjd, modified by community. See post 'Timeline' for change history
+# Retrieved 2025-12-08, License - CC BY-SA 3.0
+
+
+# plotting the csv files----
+library(ggplot2)
+library(dplyr)
+lake <- ('WQ_0') # make dataframe WQ_0 an object
+class(lake) # classify what type of data is in lake df
+str(lake)
+lake <- read.csv("output/WQ_0.csv", stringsAsFactors = FALSE)
+str(lake)
+lake$time
+lake$date <- as.Date(substr(lake$time, 1, 10)) # remove time from data frame
+
+
+ggplot(lake, aes(x = date, y = temp)) +
+  geom_line() +
+  theme_bw()
+
+summary(lake)
+
+
+## using terra
+library(terra)
+nc_path <- 'M:/Dissertation-main/GLM/Dissertation-main/GLM/output/output'
+nc_name <- ''
+nc_fname <- paste(nc_path, nc_name, '.nc', sep='')
+dname <- 'temp'
+
+tmp_raster <- rast(nc_fname)
+
+# plotting using demo code-----
+library(glmtools)
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")  #demo code
+plot_var_nc(nc_file, 'temp')
+
+#Plotting two variables
+plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = FALSE, 
+            text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
+
+#Change color palette
+plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', 
+            color.direction = 1, show.legend = FALSE)
+
+## Not run: 
+#'#How to save a plot
+plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),
+            fig_path = './figtest.png', width = 6, height = 2, units = 'in')
+
+# need to specify a valid .nc file here: 
+plot_var_nc(file = fabm_sim_nc.nc,
+            var_name = 'aed_oxygen_oxy', 
+            fig_path = 'aed_out.png')
+
+## trying with my data-----
+#'using https://rdrr.io/github/USGS-R/glmtools/man/plot_var_nc.html code
+getwd()
+file.exists("output.nc")
+
+## plotting temp heatmap
+setwd('M:Dissertation-main/GLM/Dissertation-main/GLM/output/output.nc')
+install.packages('ncdf4')
+library(ncdf4)
+nc <- nc_open("output/output.nc")
+names(nc$var)
+nc_close(nc)
+
+p <- plot_var_nc(
+  nc_file = ('Dissertation-main/GLM/Dissertation-main/GLM/output/output.nc'),
+  var_name = "temp",
+  fig_path = NULL,
+  reference = "surface",
+  max_depth = 25,
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = c(0, 25))
+p + coord_cartesian(ylim = c(25, 0))
+
+
