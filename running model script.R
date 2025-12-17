@@ -17,7 +17,7 @@ nml_template_path <- function(){
 }
 
 
-sim_folder <- 'M:/Dissertation-main/GLM/Dissertation-main/GLM'
+sim_folder <- 'C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT'
 list.files()
 
 Sys.setenv(GLM_PATH = file.path(sim_folder, 'glm.exe'))
@@ -80,7 +80,7 @@ run_glm3.0_Win <- function(sim_folder, verbose, system.args){
 }
 
 # simpler?
-sim_folder <- "M:/Dissertation-main/GLM/Dissertation-main/GLM"
+sim_folder <- "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT"
 nml_file <- file.path(sim_folder, "glm3.nml")
 
 # Run GLM
@@ -112,38 +112,6 @@ ggplot(lake, aes(x = date, y = temp)) +
 
 summary(lake)
 
-
-## using terra
-library(terra)
-nc_path <- 'M:/Dissertation-main/GLM/Dissertation-main/GLM/output/output'
-nc_name <- ''
-nc_fname <- paste(nc_path, nc_name, '.nc', sep='')
-dname <- 'temp'
-
-tmp_raster <- rast(nc_fname)
-
-# plotting using demo code-----
-library(glmtools)
-nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")  #demo code
-plot_var_nc(nc_file, 'temp')
-
-#Plotting two variables
-plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = FALSE, 
-            text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
-
-#Change color palette
-plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', 
-            color.direction = 1, show.legend = FALSE)
-
-## Not run: 
-#'#How to save a plot
-plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),
-            fig_path = './figtest.png', width = 6, height = 2, units = 'in')
-
-# need to specify a valid .nc file here: 
-plot_var_nc(file = fabm_sim_nc.nc,
-            var_name = 'aed_oxygen_oxy', 
-            fig_path = 'aed_out.png')
 
 ## trying with my data-----
 #'using https://rdrr.io/github/USGS-R/glmtools/man/plot_var_nc.html code
