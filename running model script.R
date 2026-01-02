@@ -1,9 +1,10 @@
-# install.packages("devtools")
+install.packages("devtools")
+
 devtools::install_github("GLEON/GLM3r")
 install.packages('remotes')
 remotes::install_github('usgs-r/glmtools')
-# install.packages("devtools")
 devtools::install_github("GLEON/GLMr")
+install.packages('lubridate')
 
 library(GLM3r)
 library(devtools)
