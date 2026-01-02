@@ -93,7 +93,6 @@ rm(list = ls())
 # Posted by fjd, modified by community. See post 'Timeline' for change history
 # Retrieved 2025-12-08, License - CC BY-SA 3.0
 
-
 # plotting the csv files----
 library(ggplot2)
 library(dplyr)
@@ -122,12 +121,13 @@ file.exists("output.nc")
 setwd('M:Dissertation-main/GLM/Dissertation-main/GLM/output/output.nc')
 install.packages('ncdf4')
 library(ncdf4)
+library(ggplot2)
 nc <- nc_open("output/output.nc")
-names(nc$var)
-nc_close(nc)
+names(nc$var)  # check variable names
+nc_close(nc)  # close nc file
 
 p <- plot_var_nc(
-  nc_file = ('Dissertation-main/GLM/Dissertation-main/GLM/output/output.nc'),
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
   var_name = "temp",
   fig_path = NULL,
   reference = "surface",
@@ -141,6 +141,6 @@ p <- plot_var_nc(
   color.palette = "RdYlBu",
   color.direction = -1,
   zlim = c(0, 25))
-p + coord_cartesian(ylim = c(25, 0))
+p + coord_cartesian(ylim = c(25, 0))  # limit to 25m for presentation
 
 

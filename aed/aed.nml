@@ -1,33 +1,34 @@
 &aed2_models
-models = 'aed2_tracer',
-         'aed2_noncohesive',
-         'aed2_oxygen',
-         'aed2_carbon',
-         'aed2_silica',
-         'aed2_nitrogen',
-         'aed2_phosphorus',
-         'aed2_organic_matter',
-         'aed2_phytoplankton',
-         'aed2_zooplankton'
+models = 
+'aed2_tracer',
+'aed2_noncohesive',
+'aed2_oxygen',
+'aed2_carbon',
+'aed2_silica',
+'aed2_nitrogen',
+'aed2_phosphorus',
+'aed2_organic_matter',
+'aed2_phytoplankton',
+'aed2_zooplankton'
 /
 
 &aed2_tracer
-retention_time = .true.
-num_tracers = 2
-decay  = 0, 0
-Fsed  = 0, 0
-K_ss  = 0.12, 0.08
-settling  = 3, 3
-w_ss  = -0.000001, -0.000001
-d_ss  = 4e-6, 1e-5
-rho_ss  = 1.5e3, 1.8e3
-resuspension = .true.
-fs = 0.6
-epsilon  = 0.05
-tau_0 = 0.01
-tau_r = 0.08
-Ktau_0 = 0.001
-macrophyte_link_var = ''
+  retention_time = .true.,
+  num_tracers    = 2,
+  decay          = 0, 0,
+  Fsed           = 0, 0,
+  K_ss           = 0.12, 0.08,
+  settling       = 3, 3,
+  w_ss           = -0.000001, -0.000001,
+  d_ss           = 4e-6, 1e-5,
+  rho_ss         = 1.5e3, 1.8e3,
+  resuspension   = .true.,
+  fs             = 0.6, 0.6,
+  epsilon        = 0.05,
+  tau_0          = 0.01,
+  tau_r          = 0.08,
+  Ktau_0         = 0.001,
+  macrophyte_link_var = 'NONE'
 /
 
 &aed2_noncohesive
