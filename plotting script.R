@@ -2,7 +2,7 @@
 ## trying with my data-----
 #'using https://rdrr.io/github/USGS-R/glmtools/man/plot_var_nc.html code
 getwd()
-file.exists("output.nc")
+file.exists("output/output.nc")
 
 library(ncdf4)
 library(ggplot2)
