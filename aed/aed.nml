@@ -246,8 +246,8 @@
 !-------------------------------------------------------------------------------
 &aed2_nitrogen
   !-- Initial values
-   amm_initial      = 12.5
-   nit_initial      = 27.6
+   amm_initial      = 6.5
+   nit_initial      = 58.5
    n2o_initial      =  0.0
   !-- Nitrification
    Rnitrif          =  0.3
@@ -304,7 +304,7 @@
 !-------------------------------------------------------------------------------
 &aed2_phosphorus
   !-- Initial value
-   frp_initial = 0.25
+   frp_initial = 1.29
   !-- Sediment flux
    Fsed_frp = 0.08
    Ksed_frp = 30.0
@@ -338,16 +338,16 @@
 !-------------------------------------------------------------------------------
 &aed2_organic_matter
    !-- Initial concentrations for OM variables (mmol/m3)
-     poc_initial  =  78.5
-     doc_initial  =  39.9
-     pon_initial  =   8.3
-     don_initial  =   1.3
-     pop_initial  =   8.3
-     dop_initial  =   1.5
-     docr_initial = 350.0
+     poc_initial  =  76.0
+     doc_initial  =  153.0
+     pon_initial  =   39.0
+     don_initial  =   13.0
+     pop_initial  =   0.81
+     dop_initial  =   0.2
+     docr_initial = 76.0
      donr_initial =  13.0
-     dopr_initial =   3.0
-     cpom_initial = 100.0
+     dopr_initial =   0.34
+     cpom_initial = 76.0
    !-- Breakdown and mineralisation (basic pool)
      Rpoc_hydrol  =   0.05
      Rdoc_minerl  =   0.001
@@ -432,7 +432,7 @@
   R_mpbr = 0.05
   I_Kmpb = 100.
   mpb_max = 2000.
-  resuspension = 0.0,0.0,0.0,0.0
+  resuspension = 0.1,0.2,0.3,0.4
   resus_link   = 'NCS_resus'
   n_zones = 0
   active_zones = 2,3,4,5
