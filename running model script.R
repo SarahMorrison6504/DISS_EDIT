@@ -87,7 +87,7 @@ nml_file <- file.path(sim_folder, "glm3.nml")
 # Run GLM
 
 run_glm(sim_folder)
-list.files(sim_folder)
+list.files()
 
 rm(list = ls())
 # Source - https://stackoverflow.com/q
