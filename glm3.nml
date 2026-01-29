@@ -47,7 +47,7 @@ mobility_off = .false.
    timefmt = 3
    start = '2016-01-01 00:00:00'
    dt = 86400.0
-   num_days = 1460
+   num_days = 1095
    timezone = 7.0
 /
 
