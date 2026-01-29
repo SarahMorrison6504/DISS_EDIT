@@ -434,7 +434,7 @@
   mpb_max = 2000.
   resuspension = 0.1,0.2,0.3,0.4
   resus_link   = 'NCS_resus'
-  n_zones = 0
+  n_zones = 4
   active_zones = 2,3,4,5
 !-- Set link variables to other modules
   p_excretion_target_variable='OGM_dop'
