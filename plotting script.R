@@ -8,25 +8,31 @@ file.exists("output/output.nc")
 library(ncdf4)
 library(ggplot2)
 nc <- nc_open("output/output.nc")
-names(nc$var)  # check variable names
-nc_close(nc)  # close nc file
+nc_close(nc)
+
+# Check how long the model actually ran
+lake_csv <- read.csv("output/lake.csv")
+print(range(lake_csv$time))
+print(nrow(lake_csv))
+
+
 ## for temp----
 p <- plot_var_nc(
-  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  nc_file = "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc",
   var_name = "temp",
   fig_path = NULL,
-  reference = "surface",
   max_depth = 25,
-  legend.title = NULL,
   interval = 0.5,
   text.size = 12,
   show.legend = TRUE,
   legend.position = "right",
-  plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 25))
-p + coord_cartesian(ylim = c(25, 0))  # limit to 25m for presentation
+  zlim = c(0, 25)
+)
+p + coord_cartesian(ylim = c(25, 0))
+
+length (ncvar_get(nc, 'time'))
 
 ### for OXY_oxy----
 p <- plot_var_nc(
@@ -43,7 +49,7 @@ p <- plot_var_nc(
   plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 550 ))
+  zlim = c(0, 1500 ))
 p + coord_cartesian(ylim = c(5 , 0))  # limit to 5m for presentation
 
 ## for salt----
@@ -67,7 +73,7 @@ p + coord_cartesian(ylim = c(25 , 0))  # limit to 5m for presentation
 ## phyto? ----
 p <- plot_var_nc(
   nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
-  var_name = "PHY_diat",
+  var_name = "PHY_cyno",
   fig_path = NULL,
   reference = "surface",
   max_depth = 10,
@@ -79,11 +85,89 @@ p <- plot_var_nc(
   plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 0.2))
+  zlim = c(0, 1))
 p + coord_cartesian(ylim = c(5 , 0))  # limit to 5m for presentation
 
+## dissolved org. phosphorus----
+p <- plot_var_nc(
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  var_name = "OGM_dop",
+  fig_path = NULL,
+  reference = "surface",
+  max_depth = 10,
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = c(0, 0.01))
+p + coord_cartesian(ylim = c(5 , 0))  # limit to 5m for presentation
 
+## ammonium----
+p <- plot_var_nc(
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  var_name = "NIT_amm",
+  fig_path = NULL,
+  reference = "surface",
+  max_depth = 10,
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = NULL)
+p + coord_cartesian(ylim = c(5 , 0))
 
+## DOC----
+p <- plot_var_nc(
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  var_name = "OGM_doc",
+  fig_path = NULL,
+  reference = "surface",
+  max_depth = 10,
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = NULL)
+p + coord_cartesian(ylim = c(5 , 0))
+
+## reactive silica----
+p <- plot_var_nc(
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  var_name = "SIL_rsi",
+  fig_path = NULL,
+  reference = "surface",
+  max_depth = 10,
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = c(0, 0.5))
+p + coord_cartesian(ylim = c(5 , 0))
+
+## checking wq
+# Check one of your WQ files
+wq_data <- read.csv("output/WQ_0.csv")
+head(wq_data, 20)
+tail(wq_data, 20)
+
+# Check if values are changing over time
+summary(wq_data$NIT_amm)  # or whatever the ammonium column is called
 
 ## similar method, from https://github.com/GLEON/glmtools/blob/main/R/plot_temp.R----
 plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', legend.title = NULL, 
@@ -98,3 +182,6 @@ plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', 
   
 }
 plot_temp(nc_file = 'output/output.nc')
+
+
+

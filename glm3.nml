@@ -1,6 +1,6 @@
 &glm_setup
    sim_name = 'GLM Simulation'
-   max_layers = 500
+   max_layers = 250
    min_layer_vol = 0.025
    min_layer_thick = 0.05
    max_layer_thick = 0.5
@@ -10,7 +10,7 @@
 
 &wq_setup
 wq_lib = 'aed2'
-wq_nml_file = 'aed/aed.nml'
+wq_nml_file = 'aed/aed2.nml'
 ode_method = 1
 split_factor = 1
 bioshade_feedback = .true.
@@ -45,18 +45,18 @@ mobility_off = .false.
 
 &time
    timefmt = 3
-   start = '2016-01-01 00:00:00'
+   start = '2016-01-01 00:00'
    dt = 86400.0
+   timezone = 0.0
    num_days = 1095
-   timezone = 7.0
 /
 
 &init_profiles
     lake_depth = 4.5
     num_depths = 2
     the_depths = 1.0, 4.5
-    the_temps  = 18.9
-    the_sals   = 0.5
+    the_temps  = 18.9, 5.0
+    the_sals   = 0.5, 0.5
 /
 
 &output
@@ -68,8 +68,8 @@ csv_point_nlevs = 10
 csv_point_fname = 'WQ_'
 csv_point_frombot = .true., .true., .true., .true., .true., .false., .false., .false., .false., .false.
 csv_point_at = 0.1,0.5,1,1.5,2,2.5,3,3.5,4,4.5
-csv_point_nvars = 3
-csv_point_vars = 'temp','salt','OXY_oxy'
+csv_point_nvars = 9
+csv_point_vars = 'temp','salt','OXY_oxy', 'NIT_amm', 'NIT_nit', 'PHS_frp', 'SIL_rsi', 'OGM_don', 'OGM_pon'
 /
 
 &meteorology
@@ -119,11 +119,23 @@ coef_inf_entrain = 0.
 /
 
 &outflow
-num_outlet     = 1
-outlet_type    = 1,
-outl_elvs      = 157
-bsn_len_outl   = 18000
-bsn_wid_outl   = 11000
-outflow_fl     = 'bcs/outflow1.csv'
-outflow_factor = 1
+num_outlet     = 3
+outlet_type    = 1,1,1
+outl_elvs      = 138.5, 137.0, 137.0
+bsn_len_outl   = 18000, 18000, 18000
+bsn_wid_outl   = 11000, 11000, 11000
+outflow_fl     = 'bcs/outflow.csv', 'bcs/outflow2.csv', 'bcs/outflow3.csv'
+outflow_factor = 1,1,1
+/
+
+&sediment
+   benthic_mode = 2 
+   sed_heat_model = 1
+   n_zones = 2
+   zone_heights = 2.0, 2.5
+   sed_heat_Ksoil = 1.2, 1.2
+   sed_temp_depth = 0.5, 0.5
+   sed_temp_mean = 11.39072901, 12.5
+   sed_temp_amplitude = 3.140616132, 4.3
+   sed_temp_peak_doy = 278.4380074, 330.0
 /

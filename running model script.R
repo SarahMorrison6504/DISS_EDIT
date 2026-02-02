@@ -11,6 +11,9 @@ library(devtools)
 library(glmtools)
 library(GLMr)
 library(lubridate)
+library(tidyr)
+library(janitor)
+
 
 nml_template_path <- function(){
   return(system.file('GLM/glm3.nml', package=packageName()))
@@ -88,6 +91,7 @@ nml_file <- file.path(sim_folder, "glm3.nml")
 
 run_glm(sim_folder)
 list.files()
+
 
 rm(list = ls())
 # Source - https://stackoverflow.com/q
