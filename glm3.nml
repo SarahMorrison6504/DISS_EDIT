@@ -1,9 +1,9 @@
 &glm_setup
    sim_name = 'GLM Simulation'
-   max_layers = 250
-   min_layer_vol = 0.025
-   min_layer_thick = 0.05
-   max_layer_thick = 0.5
+   max_layers = 30
+   min_layer_vol = 0.5
+   min_layer_thick = 0.75
+   max_layer_thick = 1.5
    density_model = 1
    non_avg = .true.
 /
@@ -52,11 +52,11 @@ mobility_off = .false.
 /
 
 &init_profiles
-    lake_depth = 4.5
-    num_depths = 2
-    the_depths = 1.0, 4.5
-    the_temps  = 18.9, 5.0
-    the_sals   = 0.5, 0.5
+    lake_depth = 27.0
+    num_depths = 7
+    the_depths  = 0.5, 5, 10, 15, 20, 26, 27
+    the_temps   = 18.9, 16, 13, 10, 7, 5, 5
+    the_sals    = 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5
 /
 
 &output
@@ -81,7 +81,7 @@ csv_point_vars = 'temp','salt','OXY_oxy', 'NIT_amm', 'NIT_nit', 'PHS_frp', 'SIL_
    rad_mode     = 1
    albedo_mode  = 1
    cloud_mode   = 4
-   meteo_fl     = 'bcs/meteo_fl.csv'
+   meteo_fl     = 'bcs/met.csv'
    subdaily     = .false.
    wind_factor  = 1.0
    sw_factor    = 1.0
@@ -113,26 +113,26 @@ strmbd_slope   = 0.573, 0.573, 0.573
 strmbd_drag    = 0.0160, 0.0160, 0.0160
 inflow_factor  = 1.0, 1.0, 1.0
 inflow_fl      = 'bcs/inflow.csv', 'bcs/inflow2.csv', 'bcs/inflow3.csv'
-inflow_varnum  = 1,
+inflow_varnum  = 1
 inflow_vars    = 'flow',
 coef_inf_entrain = 0.
 /
 
 &outflow
-num_outlet     = 3
-outlet_type    = 1,1,1
-outl_elvs      = 138.5, 137.0, 137.0
-bsn_len_outl   = 18000, 18000, 18000
-bsn_wid_outl   = 11000, 11000, 11000
-outflow_fl     = 'bcs/outflow.csv', 'bcs/outflow2.csv', 'bcs/outflow3.csv'
-outflow_factor = 1,1,1
+num_outlet     = 1
+outlet_type    = 1
+outl_elvs      = 138.5
+bsn_len_outl   = 18000
+bsn_wid_outl   = 11000
+outflow_fl     = 'bcs/outflow.csv'
+outflow_factor = 1
 /
 
 &sediment
-   benthic_mode = 2 
+   benthic_mode = 2
    sed_heat_model = 1
    n_zones = 2
-   zone_heights = 2.0, 2.5
+   zone_heights = 2.0, 27.0
    sed_heat_Ksoil = 1.2, 1.2
    sed_temp_depth = 0.5, 0.5
    sed_temp_mean = 11.39072901, 12.5

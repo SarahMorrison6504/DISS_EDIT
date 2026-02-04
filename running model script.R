@@ -15,6 +15,8 @@ library(tidyr)
 library(janitor)
 
 
+
+
 nml_template_path <- function(){
   return(system.file('GLM/glm3.nml', package=packageName()))
   
@@ -86,6 +88,7 @@ run_glm3.0_Win <- function(sim_folder, verbose, system.args){
 # simpler?
 sim_folder <- "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT"
 nml_file <- file.path(sim_folder, "glm3.nml")
+
 
 # Run GLM
 

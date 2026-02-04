@@ -111,7 +111,7 @@
    n_zones  = 2
    Fsed_oxy = -15.0, -15.0
    Fsed_amm = 2.0, 2.0
-   Fsed_nit = 5.0, 5.0
+   Fsed_nit = 5.0, 2.0
    Fsed_frp = 0.5, 0.5
    Fsed_rsi = 2.0, 2.0
    Fsed_pon = -1e10, -1e10
@@ -433,8 +433,8 @@
   mpb_max = 2000.
   resuspension = 0.1,0.2,0.3,0.4
   resus_link   = 'NCS_resus'
-  n_zones = 4
-  active_zones = 2,3,4,5
+  n_zones = 2
+  active_zones = 1,2
 !-- Set link variables to other modules
   p_excretion_target_variable='OGM_dop'
   n_excretion_target_variable='OGM_don'
