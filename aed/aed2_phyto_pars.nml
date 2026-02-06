@@ -59,13 +59,13 @@
 !-------------------------------------------------------------------------------
 &phyto_data	
 	 pd%p_name = 'cyno', 'diat', 'crypt', 'bga'
-	 pd%p_initial = 1.0, 9.0, 3.0, 2.0
+	 pd%p_initial = 2.0, 10.0, 5.0, 3.0
 	 pd%p0 = 0.2, 0.5, 0.2, 0.3
-	 pd%w_p = -0.1, 0.4 0.05, 0.1
+	 pd%w_p = -0.1, 0.4, 0.05, 0.1
 	 pd%Xcc = 50, 40, 50, 50
 	 pd%R_growth = 1.4, 1.1, 2.5, 2.0
 	 pd%fT_Method = 1, 1, 1, 1
-	 pd%theta_growth = 1.06, 1.06, 1.05, 1.05
+	 pd%theta_growth = 1.1, 1.1, 1.09, 1.09
 	 pd%T_std = 10, 5, 4, 5
 	 pd%T_opt = 24, 16, 14, 18
 	 pd%T_max = 36, 22, 22, 30
@@ -85,7 +85,7 @@
 	 pd%simDINUptake = 1, 1, 1, 1
 	 pd%simDONUptake = 0, 0, 0, 0
 	 pd%simNFixation = 1, 0, 0, 0
-	 pd%simINDynamics = 0, 0, 0, 0
+	 pd%simINDynamics = 1, 1, 1, 1
 	 pd%N_o = 0.12, 0.12, 0.12, 0.12
 	 pd%K_N = 1.786, 2.143, 2.5, 1.6
 	 pd%X_ncon = 0.151, 0.151, 0.151, 0.137
@@ -95,7 +95,7 @@
 	 pd%k_nfix = 0.7, 0.7, 0.7, 0.7
 	 pd%R_nfix = 0.0012, 0.00, 0.00, 0.00
 	 pd%simDIPUptake = 1, 1, 1, 1
-	 pd%simIPDynamics = 0, 0, 0, 0
+	 pd%simIPDynamics = 1, 1, 1, 1
 	 pd%P_0 = 0.02, 0.02, 0.02, 0.02
 	 pd%K_P = 0.12, 0.2, 0.18, 0.18
 	 pd%X_pcon = 0.0094, 0.0094, 0.0039, 0.0039

@@ -8,15 +8,19 @@ file.exists("output/output.nc")
 library(ncdf4)
 library(ggplot2)
 nc <- nc_open("output/output.nc")
-nc_close(nc)
+z <- ncvar_get(nc, "z")
+z <- z[is.finite(z) & z <= 26]   # only real depths
 
-# Check how long the model actually ran
-lake_csv <- read.csv("output/lake.csv")
-print(range(lake_csv$time))
-print(nrow(lake_csv))
+print(nc)
+names(nc$var)
+depth <- ncvar_get(nc, "z")  # or maybe "depth" or "z_w"
+range(depth, na.rm = TRUE)
+
+nc_close(nc)
 
 
 ## for temp----
+
 p <- plot_var_nc(
   nc_file = "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc",
   var_name = "temp",

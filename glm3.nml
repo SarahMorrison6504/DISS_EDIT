@@ -1,22 +1,22 @@
 &glm_setup
    sim_name = 'GLM Simulation'
    max_layers = 30
-   min_layer_vol = 0.5
-   min_layer_thick = 0.75
-   max_layer_thick = 1.5
+   min_layer_vol = 0.01
+   min_layer_thick = 0.5
+   max_layer_thick = 25.0
    density_model = 1
    non_avg = .true.
 /
 
-&wq_setup
-wq_lib = 'aed2'
-wq_nml_file = 'aed/aed2.nml'
-ode_method = 1
-split_factor = 1
-bioshade_feedback = .true.
-repair_state = .true.
-mobility_off = .false.
-/
+!&wq_setup
+!wq_lib = 'aed2'
+!wq_nml_file = 'aed/aed2.nml'
+!ode_method = 1
+!split_factor = 1
+!bioshade_feedback = .true.
+!repair_state = .true.
+!mobility_off = .false.
+!/
 
 &mixing
    surface_mixing = 1
@@ -34,29 +34,30 @@ mobility_off = .false.
    lake_name  = 'Loch Leven'
    latitude   = 56.1966
    longitude  = -3.3764
-   base_elev  = 134.0
-   crest_elev = 160.0
+   base_elev  = 106.0
+   crest_elev = 110.5
    bsn_len    = 5729.3
    bsn_wid    = 3748.8
-   bsn_vals   = 10
-   A = 400, 989600, 6338400, 7461200, 9056800, 9638800, 10522000, 10888000, 11172400, 11500400
-   H = 134.00, 136.00, 140.00, 142.0, 145.5, 150.0, 153.5, 157.0, 159.5, 160.0
+   bsn_vals   = 7
+   A = 20, 50, 100, 150, 200, 250, 300
+   H = 106.0,106.75,107.5,108.25,109.0,109.75,110.5
+
 /
 
 &time
    timefmt = 3
    start = '2016-01-01 00:00'
-   dt = 86400.0
+   dt = 3600.0
    timezone = 0.0
    num_days = 1095
 /
 
 &init_profiles
-    lake_depth = 27.0
-    num_depths = 7
-    the_depths  = 0.5, 5, 10, 15, 20, 26, 27
-    the_temps   = 18.9, 16, 13, 10, 7, 5, 5
-    the_sals    = 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5
+    lake_depth = 4.5
+    num_depths = 5
+    the_depths  = 0.5, 1.5, 2.5, 3.5, 4.5
+    the_temps   = 15, 14, 13, 12, 11
+    the_sals    = 0.5, 0.5, 0.5, 0.5, 0.5
 /
 
 &output
@@ -98,7 +99,7 @@ csv_point_vars = 'temp','salt','OXY_oxy', 'NIT_amm', 'NIT_nit', 'PHS_frp', 'SIL_
 
 &light
 light_mode = 0
-Kw = 0.57
+Kw = 0.7
 n_bands = 4
 light_extc = 1.0, 0.5, 2.0, 4.0
 energy_frac = 0.51, 0.45, 0.035, 0.005
@@ -121,7 +122,7 @@ coef_inf_entrain = 0.
 &outflow
 num_outlet     = 1
 outlet_type    = 1
-outl_elvs      = 138.5
+outl_elvs      = 110.5
 bsn_len_outl   = 18000
 bsn_wid_outl   = 11000
 outflow_fl     = 'bcs/outflow.csv'
@@ -132,10 +133,10 @@ outflow_factor = 1
    benthic_mode = 2
    sed_heat_model = 1
    n_zones = 2
-   zone_heights = 2.0, 27.0
+   zone_heights = 3.0, 1.0
    sed_heat_Ksoil = 1.2, 1.2
    sed_temp_depth = 0.5, 0.5
-   sed_temp_mean = 11.39072901, 12.5
-   sed_temp_amplitude = 3.140616132, 4.3
-   sed_temp_peak_doy = 278.4380074, 330.0
+   sed_temp_mean = 11.39, 12.5
+   sed_temp_amplitude = 3.14, 4.3
+   sed_temp_peak_doy = 278.44, 330.0
 /

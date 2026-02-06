@@ -93,7 +93,8 @@
              'aed2_nitrogen',
              'aed2_phosphorus',
              'aed2_organic_matter',
-             'aed2_phytoplankton'
+             'aed2_phytoplankton',
+             'aed2_zooplankton'
 
 /
 
@@ -122,6 +123,7 @@
    Fsed_doc = -1e10, -1e10
    Fsed_dic = -1e10, -1e10
 /
+
 
 
 !###############################################################################
@@ -465,8 +467,8 @@
 ! ZOO: aed2_zooplankton - AED zooplankton model
 !-------------------------------------------------------------------------------
 &aed2_zooplankton
-   num_zoops = 1
-   the_zoops = 1
+   num_zoops = 5
+   the_zoops = 1, 2, 3, 4, 5
    dn_target_variable=''  ! dissolved nitrogen target variable
    pn_target_variable=''  ! particulate nitrogen target variable
    dp_target_variable=''  ! dissolved phosphorus target variable

@@ -89,11 +89,9 @@ run_glm3.0_Win <- function(sim_folder, verbose, system.args){
 sim_folder <- "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT"
 nml_file <- file.path(sim_folder, "glm3.nml")
 
-
 # Run GLM
-
 run_glm(sim_folder)
-list.files()
+getwd()
 
 
 rm(list = ls())
