@@ -1,0 +1,14 @@
+     
+    -------------------------------------------------------
+    |  General Lake Model (GLM)   Version 3.1.8           |
+    -------------------------------------------------------
+     
+     glm built using MSC version 1916
+Error in file "glm3.nml"
+"/"
+
+     ERROR opening the glm namelist file glm3.nml
+     Trying glm2.nml
+Could not open "glm2.nml"
+
+     ERROR opening the glm namelist file glm2.nml
