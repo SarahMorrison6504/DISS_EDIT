@@ -248,7 +248,7 @@
 &aed2_nitrogen
   !-- Initial values
    amm_initial      = 6.5
-   nit_initial      = 58.5
+   nit_initial      = 138.15
    n2o_initial      =  0.0
   !-- Nitrification
    Rnitrif          =  0.3
@@ -305,7 +305,7 @@
 !-------------------------------------------------------------------------------
 &aed2_phosphorus
   !-- Initial value
-   frp_initial = 1.29
+   frp_initial = 0.716
   !-- Sediment flux
    Fsed_frp = 0.08
    Ksed_frp = 30.0
@@ -453,7 +453,7 @@
   do_uptake_target_variable='OXY_oxy'
   c_uptake_target_variable=''
 !-- General options
-  dbase = 'aed/aed2_phyto_pars.nml'
+  dbase = 'aed2_phyto_pars.nml'
   extra_diag = .false.
   zerolimitfudgefactor = 1
   min_rho = 900.
@@ -475,6 +475,6 @@
    pp_target_variable=''  ! particulate phosphorus target variable
    dc_target_variable=''  ! dissolved carbon target variable
    pc_target_variable=''  ! particulate carbon target variable
-   dbase = 'aed/aed2_zoop_pars.nml'
+   dbase = 'aed2_zoop_pars.nml'
    simZoopFeedback = .false.
 /
