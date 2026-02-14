@@ -23,7 +23,7 @@ nml_template_path <- function(){
 }
 
 
-sim_folder <- 'C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT'
+sim_folder <- 'C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed'
 list.files()
 
 Sys.setenv(GLM_PATH = file.path(sim_folder, 'glm.exe'))
@@ -86,13 +86,13 @@ run_glm3.0_Win <- function(sim_folder, verbose, system.args){
 }
 
 # simpler?
-sim_folder <- "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT"
+sim_folder <- "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed"
 nml_file <- file.path(sim_folder, "glm3.nml")
 
 # Run GLM
 run_glm(sim_folder)
 getwd()
-
+file.exists('output/log.txt')
 
 rm(list = ls())
 # Source - https://stackoverflow.com/q

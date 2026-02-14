@@ -46,15 +46,15 @@ mobility_off = .false.
 &time
    timefmt = 3
    start = '2016-01-01 00:00'
-   dt = 86400.0
-   timezone = 7.0
-   num_days = 10
+   dt = 86400
+   timezone = 0.0
+   num_days = 1095
 /
 
 &init_profiles
     lake_depth = 6
     num_depths = 5
-    the_depths  = 0.5, 1.5, 2.5, 3.5, 6
+    the_depths  = 0.5, 1.5, 4.5, 5, 6
     the_temps   = 15, 14, 13, 12, 11
     the_sals    = 0.5, 0.5, 0.5, 0.5, 0.5
 /
