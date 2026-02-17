@@ -14,80 +14,35 @@ library(lubridate)
 library(tidyr)
 library(janitor)
 
+#require(devtools)
+#devtools::install_github("robertladwig/GLM3r", ref = "v3.1.1")
+#install.packages('remotes')
+remotes::install_github('usgs-r/glmtools')
+#install.packages("rLakeAnalyzer")
+#install.packages("tidyverse")
 
 
 
-nml_template_path <- function(){
-  return(system.file('GLM/glm3.nml', package=packageName()))
-  
-}
+#### clear console  ####
+cat("\f")
+rm(list = ls())
 
-sim_folder <- 'C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed'
-list.files()
+# will set the WD relative to where ever this script is stored
+setwd('C:/Users/Sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed')
+remove.packages('GLM3r')
+# load GLMr3
+devtools::install_github("robertladwig/GLM3r", ref = "v3.1.1")
+library(GLM3r)
 
-Sys.setenv(GLM_PATH = file.path(sim_folder, 'glm.exe'))
+# check out which R version we're currently using should be 3.1.1 if above install worked
+glm_version()
 
-run_glm <- function(sim_folder = '.', verbose=TRUE, system.args=character()) {
-  
-  # verbose true = print output into R console
-  
-  # Check for glm2.nml
-  if(!'glm3.nml' %in% list.files(sim_folder)){
-    stop('You must have a valid glm3.nml file in your sim_folder: ', sim_folder)
-  }
-  
-  # Windows-specific run
-  if(.Platform$pkgType == "win.binary"){
-    return(run_glm3.0_Win(sim_folder, verbose, system.args))
-  }
-}
+# run GLM - sim folder = . just assings the simulation folder to the wd
+GLM3r::run_glm(sim_folder = '.', verbose = T)
 
-
-# Internal function to call system2 for GLM
-glm.systemcall <- function(sim_folder, glm_path, verbose, system.args) {
-  
-  if(nchar(Sys.getenv("GLM_PATH")) > 0){
-    glm_path <- Sys.getenv("GLM_PATH")
-    warning(paste0(
-      "Custom path to GLM executable set via 'GLM_PATH' environment variable as: ", 
-      glm_path))
-  }
-  
-  origin <- getwd()
-  setwd(sim_folder)
-  
-  
-  tryCatch({
-    if (is.null(verbose)){
-      out <- system2(glm_path, wait = TRUE, stdout = TRUE, stderr = NULL, args = system.args)
-    } else if (verbose) {
-      out <- system2(glm_path, wait = TRUE, stdout = "", stderr = "", args = system.args)
-    } else {
-      out <- system2(glm_path, wait = TRUE, stdout = NULL, stderr = NULL, args = system.args)
-    }
-    return(out)
-  }, error = function(err) {
-    stop(paste("GLM_ERROR:", err$message))
-    setwd(origin)
-  })
-}
-
-# GLM runner
-run_glm3.0_Win <- function(sim_folder, verbose, system.args){
-  
-  # Use glm.exe from simulation folder
-  glm_path <- file.path(sim_folder, "glm.exe")
-  if(!file.exists(glm_path)){
-    stop("GLM executable not found at: ", glm_path)
-  }
-  
-  glm.systemcall(sim_folder, glm_path, verbose, system.args)
-}
-
-# simpler?
-sim_folder <- "C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed"
-nml_file <- file.path(sim_folder, "glm3.nml")
-
+GLM3r_folder <-getwd()
+nc_file <- file.path(GLM3r_folder, 'aed/output/output.nc')
+plot_var_nc()
 # Run GLM
 run_glm(sim_folder)
 getwd()
