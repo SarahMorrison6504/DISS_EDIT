@@ -15,11 +15,10 @@ library(tidyr)
 library(janitor)
 
 #require(devtools)
-#devtools::install_github("robertladwig/GLM3r", ref = "v3.1.1")
-#install.packages('remotes')
+install.packages('remotes')
 remotes::install_github('usgs-r/glmtools')
-#install.packages("rLakeAnalyzer")
-#install.packages("tidyverse")
+install.packages("rLakeAnalyzer")
+install.packages("tidyverse")
 
 
 
@@ -38,7 +37,7 @@ library(GLM3r)
 glm_version()
 
 # run GLM - sim folder = . just assings the simulation folder to the wd
-GLM3r::run_glm(sim_folder = '.', verbose = T)
+GLM3r::run_glm(sim_folder = 'C:/Users/Sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed', verbose = T)
 
 GLM3r_folder <-getwd()
 nc_file <- file.path(GLM3r_folder, 'aed/output/output.nc')

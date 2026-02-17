@@ -270,7 +270,7 @@
   !-- Sediment fluxes
    Fsed_amm         =   3.5
    Ksed_amm         =  25.0
-   Fsed_nit         =  -4.5
+   Fsed_nit         =  5.5
    Ksed_nit         = 100.0
    Fsed_n2o         =   0.0
    Ksed_n2o         = 100.0
@@ -318,7 +318,6 @@
    simWetDeposition = .false.
    atm_frp_conc = 0.00
 /
-
 
 !###############################################################################
 ! OGM: aed2_organic_matter - AED organic matter model

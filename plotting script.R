@@ -7,7 +7,7 @@ file.exists("output/output.nc")
 
 library(ncdf4)
 library(ggplot2)
-
+library(glmtools)
 
 
 nc <- nc_open('output/output.nc')
@@ -29,7 +29,6 @@ p <- plot_var_nc(
   color.palette = "RdYlBu",
   color.direction = -1,
   zlim = c(0,25))
-
 
 p + scale_y_reverse(limits = c(5.0, 0))
 
@@ -107,7 +106,7 @@ p <- plot_var_nc(
   zlim = NULL)
 p + coord_cartesian(ylim = c(5 , 0))  # limit to 5m for presentation
 
-## ammonium----
+## nitrate----
 p <- plot_var_nc(
   nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/output/output.nc'),
   var_name = "NIT_nit",
@@ -124,6 +123,7 @@ p <- plot_var_nc(
   color.direction = -1,
   zlim = NULL)
 p + coord_cartesian(ylim = c(5 , 0))
+
 
 ## DOC----
 p <- plot_var_nc(
