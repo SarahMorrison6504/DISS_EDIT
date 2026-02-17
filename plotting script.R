@@ -7,7 +7,8 @@ file.exists("output/output.nc")
 
 library(ncdf4)
 library(ggplot2)
-getwd()
+
+
 
 nc <- nc_open('output/output.nc')
 print(nc)
@@ -20,16 +21,17 @@ p <- plot_var_nc(
   var_name = "temp",
   fig_path = NULL,
   min_depth = 0.0,
-  max_depth = 4.5,
+  max_depth = 6,
   interval = 0.1,
   text.size = 12,
   show.legend = TRUE,
   legend.position = "right",
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 25)
-)
-p + coord_cartesian(ylim = c(25, 0))
+  zlim = c(0,25))
+
+
+p + scale_y_reverse(limits = c(5.0, 0))
 
 length (ncvar_get(nc, 'time'))
 
@@ -48,12 +50,12 @@ p <- plot_var_nc(
   plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 1500 ))
+  zlim = NULL)
 p + coord_cartesian(ylim = c(5 , 0))  # limit to 5m for presentation
 
 ## for salt----
 p <- plot_var_nc(
-  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/output/output.nc'),
   var_name = "salt",
   fig_path = NULL,
   reference = "surface",
@@ -66,12 +68,12 @@ p <- plot_var_nc(
   plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 0.001 ))
+  zlim = NULL)
 p + coord_cartesian(ylim = c(25 , 0))  # limit to 5m for presentation
 
 ## phyto? ----
 p <- plot_var_nc(
-  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/output/output.nc'),
   var_name = "PHY_cyno",
   fig_path = NULL,
   reference = "surface",
@@ -84,12 +86,12 @@ p <- plot_var_nc(
   plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 1))
+  zlim = NULL)
 p + coord_cartesian(ylim = c(5 , 0))  # limit to 5m for presentation
 
 ## dissolved org. phosphorus----
 p <- plot_var_nc(
-  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/output/output.nc'),
   var_name = "OGM_dop",
   fig_path = NULL,
   reference = "surface",
@@ -102,13 +104,13 @@ p <- plot_var_nc(
   plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 0.01))
+  zlim = NULL)
 p + coord_cartesian(ylim = c(5 , 0))  # limit to 5m for presentation
 
 ## ammonium----
 p <- plot_var_nc(
-  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
-  var_name = "NIT_amm",
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/output/output.nc'),
+  var_name = "NIT_nit",
   fig_path = NULL,
   reference = "surface",
   max_depth = 10,
@@ -125,7 +127,7 @@ p + coord_cartesian(ylim = c(5 , 0))
 
 ## DOC----
 p <- plot_var_nc(
-  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/output/output.nc'),
   var_name = "OGM_doc",
   fig_path = NULL,
   reference = "surface",
@@ -143,7 +145,7 @@ p + coord_cartesian(ylim = c(5 , 0))
 
 ## reactive silica----
 p <- plot_var_nc(
-  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/output/output.nc'),
+  nc_file = ('C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/output/output.nc'),
   var_name = "SIL_rsi",
   fig_path = NULL,
   reference = "surface",
@@ -156,7 +158,7 @@ p <- plot_var_nc(
   plot.title = NULL,
   color.palette = "RdYlBu",
   color.direction = -1,
-  zlim = c(0, 0.5))
+  zlim = NULL)
 p + coord_cartesian(ylim = c(5 , 0))
 
 ## checking wq

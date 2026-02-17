@@ -22,7 +22,6 @@ nml_template_path <- function(){
   
 }
 
-
 sim_folder <- 'C:/Users/sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed'
 list.files()
 

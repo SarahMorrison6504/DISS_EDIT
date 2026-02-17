@@ -37,7 +37,7 @@
 ! base_par_extinction (Kw; /m)
 ! ext_tss_extinction  (T/F: TFV SS concs included/excluded in Kd calculation)
 !
-&aed2_bio
+!&aed2_bio
    !-- AED2 configuration flags
    solution_method =  1
    do_limiter      = .true.
@@ -93,9 +93,8 @@
              'aed2_nitrogen',
              'aed2_phosphorus',
              'aed2_organic_matter',
-             'aed2_phytoplankton',
+             'aed2_phytoplankton'
              'aed2_zooplankton'
-
 /
 
 !###############################################################################
@@ -121,7 +120,7 @@
    Fsed_dop = -1e10, -1e10
    Fsed_poc = -1e10, -1e10
    Fsed_doc = -1e10, -1e10
-   Fsed_dic = -1e10, -1e10
+   Fsed_dic = 0.0, 0.0
 /
 
 
@@ -180,7 +179,7 @@
 !
 !-------------------------------------------------------------------------------
 &aed2_oxygen
-   oxy_initial       = 225.0
+   oxy_initial       = 90.0
    Fsed_oxy          = -3.0    ! overwritten by SDF_Fsed_oxy
    Ksed_oxy          = 50.0
    theta_sed_oxy     =   1.08
@@ -195,20 +194,14 @@
 ! http://aquatic.science.uwa.edu.au/research/models/AED/aed_nutrient.html
 !
 !-------------------------------------------------------------------------------
-&aed2_carbon
-   !-- DIC & pH
-    dic_initial = 1486.0
-    Fsed_dic = 3.0
-    Ksed_dic = 20.0
-    theta_sed_dic = 1.08
-    Fsed_dic_variable='SDF_Fsed_dic'
-    pH_initial = 8.5
-    atmco2 = 390e-6
-    co2_model = 1
-    alk_mode = 1
-    ionic = 0.1
-    co2_piston_model = 1
-   !-- CH4
+&aed_carbon
+   dic_initial = 1600.5
+   Fsed_dic = 14.0
+   Ksed_dic = 20.0
+   theta_sed_dic = 1.08
+   pH_initial = 7.5
+   atmco2 = 390e-6
+   ionic = 0.1
    ch4_initial = 27.6
    Rch4ox = 0.01
    Kch4ox = 0.5
@@ -216,10 +209,7 @@
    Fsed_ch4 = 0.5
    Ksed_ch4 = 100.0
    theta_sed_ch4 = 1.08
-   methane_reactant_variable = 'OXY_oxy'
-   Fsed_ch4_variable = 'Fsed_ch4'
-   atm_ch4 = 1.76e-6    !atm
-   ch4_piston_model = 1
+   methane_reactant_variable='OXY_oxy'
 /
 
 !###############################################################################
