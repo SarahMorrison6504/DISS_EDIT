@@ -3,14 +3,14 @@
 #'using https://rdrr.io/github/USGS-R/glmtools/man/plot_var_nc.html code
 getwd()
 setwd("C:/Users/Sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed")
-file.exists("output/output.nc")
+file.exists("output/output_baseline.nc")
 
 library(ncdf4)
 library(ggplot2)
 library(glmtools)
 
 
-nc <- nc_open('output/output.nc')
+nc <- nc_open('output/output_baseline.nc')
 print(nc)
 names(nc$var)
 

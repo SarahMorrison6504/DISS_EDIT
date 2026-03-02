@@ -123,7 +123,13 @@ final_plot <- temp_solar_surface /
   )
 
 final_plot
-
+ggsave(
+  filename = "thermal_solar.png",
+  plot = final_plot,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 # Combine your three depths into one dataframe
 deltaT_all <- data.frame(
   DateTime = compare$DateTime,
@@ -190,8 +196,7 @@ compare$deltaNIT <- compare$NIT_max - compare$NIT_zero
 
 (NIT_solar_surface <- ggplot(compare, aes(x = DateTime, y = deltaNIT)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*No3),
-         title = "Nitrate Sensitivity to Solar Radiation Extremes at Surface") +
+    labs(y = expression(Delta*NO3), x = NULL) +
     theme_classic())
 
 
@@ -221,8 +226,7 @@ compare_nit_mid$deltaNIT <- compare_nit_mid$NIT_max - compare_nit_mid$NIT_zero
 
 (nit_solar_mid <- ggplot(compare_nit_mid, aes(x = DateTime, y = deltaNIT)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*NO3),
-         title = "Nitrate Sensitivity to Solar Radiation Extremes at Middle") +
+    labs(y = expression(Delta*NO3), x = NULL) +
     theme_classic())
 
 # bottom of loch
@@ -250,9 +254,36 @@ compare_NIT_bottom$deltaNIT <- compare_NIT_bottom$NIT_max - compare_NIT_bottom$N
 
 (NIT_solar_bottom <- ggplot(compare_NIT_bottom, aes(x = DateTime, y = deltaNIT)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*NO3),
-         title = "Nitrate Sensitivity to Solar Radiation Extremes at Bottom") +
+    labs(y = expression(Delta*NO3)) +
     theme_classic())
+
+# remove axis titles
+NIT_solar_surface <- NIT_solar_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+nit_solar_mid <- nit_solar_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+final_plot_nit <- NIT_solar_surface /
+  nit_solar_mid /
+  NIT_solar_bottom +
+  plot_annotation(
+    title = "Nitrate Sensitivity to Solar Radiation Extremes"
+  )
+
+final_plot_nit
+ggsave(
+  filename = "nit_solar.png",
+  plot = final_plot_nit,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 
 library(dplyr)
 library(ggplot2)
@@ -321,8 +352,7 @@ comparePHS$deltaPHS <- comparePHS$phs_max - comparePHS$phs_zero
 
 (phs_solar_surface <- ggplot(comparePHS, aes(x = DateTime, y = deltaPHS)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*PO4),
-         title = "Phosphate Sensitivity to Solar Radiation Extremes at Surface") +
+    labs(y = expression(Delta*PO4)) +
     theme_classic())
 
 
@@ -352,8 +382,7 @@ compare_phs_mid$deltaPHS <- compare_phs_mid$phs_max - compare_phs_mid$phs_zero
 
 (phs_solar_mid <- ggplot(compare_phs_mid, aes(x = DateTime, y = deltaPHS)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*PO4),
-         title = "Phosphate Sensitivity to Solar Radiation Extremes at Middle") +
+    labs(y = expression(Delta*PO4))+
     theme_classic())
 
 # bottom of loch
@@ -381,10 +410,34 @@ compare_phs_bottom$deltaPHS <- compare_phs_bottom$phs_max - compare_phs_bottom$p
 
 (phs_solar_bottom <- ggplot(compare_phs_bottom, aes(x = DateTime, y = deltaPHS)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*PO4),
-         title = "Phosphate Sensitivity to Solar Radiation Extremes at Bottom") +
+    labs(y = expression(Delta*PO4))+
     theme_classic())
 
+  # remove axis titles
+phs_solar_surface <- phs_solar_surface +
+theme(axis.title.x = element_blank(),
+      axis.text.x  = element_blank(),
+      axis.ticks.x = element_blank())
+  
+phs_solar_mid <- phs_solar_mid +
+theme(axis.title.x = element_blank(),
+      axis.text.x  = element_blank(),
+      axis.ticks.x = element_blank())
+library(patchwork)
+  
+(final_plot_phs <- phs_solar_surface /
+  phs_solar_mid /
+  phs_solar_bottom +
+    plot_annotation(
+      title = "Phosphate Sensitivity to Solar Radiation Extremes"
+    ))
+ggsave(
+  filename = "phs_solar.png",
+  plot = final_plot_phs,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 
 # Combine your three depths into one dataframe
 deltaPHS_all <- data.frame(
@@ -452,8 +505,7 @@ comparedo$deltado <- comparedo$do_max - comparedo$do_0
 
 (do_solar_surface <- ggplot(comparedo, aes(x = DateTime, y = deltado)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DO),
-         title = "DO Sensitivity to Solar Radiation Extremes at Surface") +
+    labs(y = expression(Delta*DO))+
     theme_classic())
 
 
@@ -483,8 +535,7 @@ compare_do_mid$deltaDO <- compare_do_mid$do_max - compare_do_mid$do_zero
 
 (do_solar_mid <- ggplot(compare_do_mid, aes(x = DateTime, y = deltaDO)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DO),
-         title = "DO Sensitivity to Solar Radiation Extremes at Middle") +
+    labs(y = expression(Delta*DO))+
     theme_classic())
 
 # bottom of loch
@@ -512,10 +563,34 @@ compare_do_bottom$deltado <- compare_do_bottom$do_max - compare_do_bottom$do_zer
 
 (do_solar_bottom <- ggplot(compare_do_bottom, aes(x = DateTime, y = deltado)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DO),
-         title = "DO Sensitivity to Solar Radiation Extremes at Bottom") +
+    labs(y = expression(Delta*DO))+
     theme_classic())
 
+# remove axis titles
+do_solar_surface <- do_solar_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+do_solar_mid <- do_solar_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_plot_do <- do_solar_surface /
+    do_solar_mid /
+    do_solar_bottom +
+    plot_annotation(
+      title = "Dissolved Oxygen Sensitivity to Solar Radiation Extremes"
+    ))
+ggsave(
+  filename = "do_solar.png",
+  plot = final_plot_do,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 
 # Combine your three depths into one dataframe
 deltado_all <- data.frame(
@@ -583,8 +658,7 @@ compare$deltaCYNO <- compare$cyno_max - compare$cyno_zero
 
 (cyno_solar_surface <- ggplot(compare, aes(x = DateTime, y = deltaCYNO)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*CYANO),
-         title = "Cyano Sensitivity to Solar Radiation Extremes at Surface") +
+    labs(y = expression(Delta*CYANO))+
     theme_classic())
 
 
@@ -614,8 +688,7 @@ compare_cyno_mid$deltaCYNO <- compare_cyno_mid$cyno_max - compare_cyno_mid$cyno_
 
 (cyno_solar_mid <- ggplot(compare_cyno_mid, aes(x = DateTime, y = deltaCYNO)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*CYNO),
-         title = "Cyno Sensitivity to Solar Radiation Extremes at Middle") +
+    labs(y = expression(Delta*CYNO))+
     theme_classic())
 
 # bottom of loch
@@ -643,9 +716,34 @@ compare_cyno_bottom$deltaCYNO <- compare_cyno_bottom$cyno_max - compare_cyno_bot
 
 (cyno_solar_bottom <- ggplot(compare_cyno_bottom, aes(x = DateTime, y = deltaCYNO)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*CYNO),
-         title = "Cyno Sensitivity to Solar Radiation Extremes at Bottom") +
+    labs(y = expression(Delta*CYNO))+
     theme_classic())
+
+# remove axis titles
+cyno_solar_surface <- cyno_solar_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+cyno_solar_mid <- cyno_solar_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_plot_cyno <- cyno_solar_surface /
+    cyno_solar_mid /
+    cyno_solar_bottom +
+    plot_annotation(
+      title = "Cynobacteria Sensitivity to Solar Radiation Extremes"
+    ))
+ggsave(
+  filename = "cyno_solar.png",
+  plot = final_plot_cyno,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 
 # Combine your three depths into one dataframe
 deltaCYNO_all <- data.frame(
@@ -712,8 +810,7 @@ compare$deltadiat <- compare$diat_max - compare$diat_zero
 
 (diat_solar_surface <- ggplot(compare, aes(x = DateTime, y = deltadiat)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DIAT),
-         title = "Diatom Sensitivity to Solar Radiation Extremes at Surface") +
+    labs(y = expression(Delta*DIAT))+
     theme_classic())
 
 
@@ -743,8 +840,7 @@ compare_diat_mid$deltadiat <- compare_diat_mid$diat_max - compare_diat_mid$diat_
 
 (diat_solar_mid <- ggplot(compare_diat_mid, aes(x = DateTime, y = deltadiat)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DIAT),
-         title = "Diatom Sensitivity to Solar Radiation Extremes at Middle") +
+    labs(y = expression(Delta*DIAT))+
     theme_classic())
 
 # bottom of loch
@@ -772,9 +868,35 @@ compare_diat_bottom$deltadiat <- compare_diat_bottom$diat_max - compare_diat_bot
 
 (diat_solar_bottom <- ggplot(compare_diat_bottom, aes(x = DateTime, y = deltadiat)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DIAT),
-         title = "Diatom Sensitivity to Solar Radiation Extremes at Bottom") +
+    labs(y = expression(Delta*DIAT))+
     theme_classic())
+
+# remove axis titles
+diat_solar_surface <- diat_solar_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+diat_solar_mid <- diat_solar_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_plot_diat <- diat_solar_surface /
+    diat_solar_mid /
+    diat_solar_bottom +
+    plot_annotation(
+      title = "Diatom Sensitivity to Solar Radiation Extremes"
+    ))
+ggsave(
+  filename = "diat_solar.png",
+  plot = final_plot_diat,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
+
 # Combine your three depths into one dataframe
 deltadiat_all <- data.frame(
   DateTime = compare$DateTime,
@@ -840,8 +962,7 @@ compare$deltabga <- compare$bga_max - compare$bga_zero
 
 (bga_solar_surface <- ggplot(compare, aes(x = DateTime, y = deltabga)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*BGA),
-         title = "Blue green algae Sensitivity to Solar Radiation Extremes at Surface") +
+    labs(y = expression(Delta*BGA))+
     theme_classic())
 
 
@@ -871,8 +992,7 @@ compare_bga_mid$deltabga <- compare_bga_mid$bga_max - compare_bga_mid$bga_zero
 
 (bga_solar_mid <- ggplot(compare_bga_mid, aes(x = DateTime, y = deltabga)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*BGA),
-         title = "Blue Green Algae Sensitivity to Solar Radiation Extremes at Middle") +
+    labs(y = expression(Delta*BGA))+
     theme_classic())
 
 # bottom of loch
@@ -900,9 +1020,34 @@ compare_bga_bottom$deltabga <- compare_bga_bottom$bga_max - compare_bga_bottom$b
 
 (bga_solar_bottom <- ggplot(compare_bga_bottom, aes(x = DateTime, y = deltabga)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*BGA),
-         title = "Blue Green Algae Sensitivity to Solar Radiation Extremes at Bottom") +
+    labs(y = expression(Delta*BGA))+
     theme_classic())
+# remove axis titles
+bga_solar_surface <- bga_solar_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+bga_solar_mid <- bga_solar_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_plot_bga <- bga_solar_surface /
+    bga_solar_mid /
+    bga_solar_bottom +
+    plot_annotation(
+      title = "Blue Green Algae Sensitivity to Solar Radiation Extremes"
+    ))
+ggsave(
+  filename = "bga_solar.png",
+  plot = final_plot_bga,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
+
 
 # Combine your three depths into one dataframe
 deltabga_all <- data.frame(
@@ -968,8 +1113,7 @@ compare$deltagreen <- compare$green_max - compare$green_zero
 
 (green_solar_surface <- ggplot(compare, aes(x = DateTime, y = deltagreen)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*GREEN),
-         title = "Green algae Sensitivity to Solar Radiation Extremes at Surface") +
+    labs(y = expression(Delta*GREEN))+
     theme_classic())
 
 
@@ -999,8 +1143,7 @@ compare_green_mid$deltagreen <- compare_green_mid$green_max - compare_green_mid$
 
 (green_solar_mid <- ggplot(compare_green_mid, aes(x = DateTime, y = deltagreen)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*GREEN),
-         title = "Greens Sensitivity to Solar Radiation Extremes at Middle") +
+    labs(y = expression(Delta*GREEN))+
     theme_classic())
 
 # bottom of loch
@@ -1028,10 +1171,34 @@ compare_green_bottom$deltagreen <- compare_green_bottom$green_max - compare_gree
 
 (green_solar_bottom <- ggplot(compare_green_bottom, aes(x = DateTime, y = deltagreen)) +
     geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*GREEN),
-         title = "Greens Sensitivity to Solar Radiation Extremes at Bottom") +
+    labs(y = expression(Delta*GREEN))+
     theme_classic())
 
+# remove axis titles
+green_solar_surface <- green_solar_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+green_solar_mid <- green_solar_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_plot_green <- green_solar_surface /
+    green_solar_mid /
+    green_solar_bottom +
+    plot_annotation(
+      title = "Greens Sensitivity to Solar Radiation Extremes"
+    ))
+ggsave(
+  filename = "phs_solar.png",
+  plot = final_plot_green,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 # Combine your three depths into one dataframe
 deltagreen_all <- data.frame(
   DateTime = compare$DateTime,
@@ -1117,9 +1284,8 @@ compare_wind$deltatemp <- compare_wind$temp_max - compare_wind$temp_zero
 # plot
 
 (temp_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltatemp)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*TEMP),
-         title = "Temperature Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*T~(degree*C)))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -1150,9 +1316,8 @@ colnames(compare_temp_mid) <- c('DateTime', 'temp_zero', 'temp_max')
 compare_temp_mid$deltatemp <- compare_temp_mid$temp_max - compare_temp_mid$temp_zero
 
 (temp_wind_mid <- ggplot(compare_temp_mid, aes(x = DateTime, y = deltatemp)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*T~(degree*C)),
-         title = "Temperature Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*T~(degree*C)))+
     theme_classic())
 
 # bottom of loch
@@ -1179,11 +1344,34 @@ colnames(compare_temp_bottom) <- c('DateTime', 'temp_zero', 'temp_max')
 compare_temp_bottom$deltatemp <- compare_temp_bottom$temp_max - compare_temp_bottom$temp_zero
 
 (temp_wind_bottom <- ggplot(compare_temp_bottom, aes(x = DateTime, y = deltatemp)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*T~(degree*C)),
-         title = "Temperature Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*T~(degree*C)))+
     theme_classic())
+# remove axis titles
+temp_wind_surface <- temp_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
 
+temp_wind_mid <- temp_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_temp_wind <- temp_wind_surface /
+    temp_wind_mid /
+    temp_wind_bottom +
+    plot_annotation(
+      title = "Thermal Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "thermal_wind.png",
+  plot = final_temp_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 deltatemp_all <- data.frame(
   DateTime = compare_wind$DateTime,
   surface = compare_wind$deltatemp,
@@ -1257,9 +1445,8 @@ compare_wind$deltaNIT <- compare_wind$NIT_max - compare_wind$NIT_zero
 # plot
 
 (nit_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltaNIT)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*NO3),
-         title = "Nitrate Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*NO3))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -1290,9 +1477,8 @@ colnames(compare_nit_mid) <- c('DateTime', 'NIT_zero', 'NIT_max')
 compare_nit_mid$deltaNIT <- compare_nit_mid$NIT_max - compare_nit_mid$NIT_zero
 
 (nit_wind_mid <- ggplot(compare_nit_mid, aes(x = DateTime, y = deltaNIT)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*NO3),
-         title = "Nitrate Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*NO3))+
     theme_classic())
 
 # bottom of loch
@@ -1319,11 +1505,35 @@ colnames(compare_nit_bottom) <- c('DateTime', 'nit_zero', 'nit_max')
 compare_nit_bottom$deltaNIT <- compare_nit_bottom$nit_max - compare_nit_bottom$nit_zero
 
 (nit_wind_bottom <- ggplot(compare_nit_bottom, aes(x = DateTime, y = deltaNIT)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*NO3),
-         title = "Nitrate Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*NO3))+
     theme_classic())
 
+# remove axis titles
+nit_wind_surface <- nit_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+nit_wind_mid <- nit_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_nit_wind <- nit_wind_surface /
+    nit_wind_mid /
+    nit_wind_bottom +
+    plot_annotation(
+      title = "Nitrate Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "nitrate_wind.png",
+  plot = final_nit_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 # Combine your three depths into one dataframe
 deltanit_all <- data.frame(
   DateTime = compare_wind$DateTime,
@@ -1369,9 +1579,11 @@ wind_max <- get_var('output_windMAX.nc',
                     var_name = 'PHS_frp',
                     reference = 'surface')
 
+
 # check column names
 colnames(wind_0)
 colnames(wind_max)
+
 ## keep only phs_phs and date
 wind_zero <- wind_0[, c("DateTime", "PHS_frp_0")]
 wind_max  <- wind_max[, c("DateTime", "PHS_frp_0")]
@@ -1386,9 +1598,8 @@ compare_wind$deltaphs <- compare_wind$phs_max - compare_wind$phs_zero
 # plot
 
 (phs_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltaphs)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*PO4),
-         title = "Phosphate Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*PO4))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -1419,9 +1630,8 @@ colnames(compare_phs_mid) <- c('DateTime', 'phs_zero', 'phs_max')
 compare_phs_mid$deltaphs <- compare_phs_mid$phs_max - compare_phs_mid$phs_zero
 
 (phs_wind_mid <- ggplot(compare_phs_mid, aes(x = DateTime, y = deltaphs)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*PO4),
-         title = "Phosphate Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*PO4))+
     theme_classic())
 
 # bottom of loch
@@ -1448,10 +1658,35 @@ colnames(compare_phs_bottom) <- c('DateTime', 'phs_zero', 'phs_max')
 compare_phs_bottom$deltaphs <- compare_phs_bottom$phs_max - compare_phs_bottom$phs_zero
 
 (phs_wind_bottom <- ggplot(compare_phs_bottom, aes(x = DateTime, y = deltaphs)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*PO4),
-         title = "Phosphate Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*PO4))+
     theme_classic())
+
+# remove axis titles
+phs_wind_surface <- phs_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+phs_wind_mid <- phs_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_phs_wind <- phs_wind_surface /
+    phs_wind_mid /
+    phs_wind_bottom +
+    plot_annotation(
+      title = "Phosphate Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "phs_wind.png",
+  plot = final_phs_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 # Combine your three depths into one dataframe
 deltaphs_all <- data.frame(
   DateTime = compare_wind$DateTime,
@@ -1515,9 +1750,8 @@ compare_wind$deltaox <- compare_wind$ox_max - compare_wind$ox_zero
 # plot
 
 (ox_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltaox)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DO),
-         title = "DO Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*DO))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -1548,9 +1782,8 @@ colnames(compare_ox_mid) <- c('DateTime', 'ox_zero', 'ox_max')
 compare_ox_mid$deltaox <- compare_ox_mid$ox_max - compare_ox_mid$ox_zero
 
 (oz_wind_mid <- ggplot(compare_ox_mid, aes(x = DateTime, y = deltaox)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DO),
-         title = "DO Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*DO))+
     theme_classic())
 
 # bottom of loch
@@ -1577,10 +1810,35 @@ colnames(compare_ox_bottom) <- c('DateTime', 'ox_zero', 'ox_max')
 compare_ox_bottom$deltaox <- compare_ox_bottom$ox_max - compare_ox_bottom$ox_zero
 
 (ox_wind_bottom <- ggplot(compare_ox_bottom, aes(x = DateTime, y = deltaox)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DO),
-         title = "DO Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*DO))+
     theme_classic())
+# remove axis titles
+ox_wind_surface <- ox_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+oz_wind_mid <- oz_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_ox_wind <- ox_wind_surface /
+    oz_wind_mid /
+    ox_wind_bottom +
+    plot_annotation(
+      title = "Dissolved oxygen Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "do_wind.png",
+  plot = final_ox_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
+
 # Combine your three depths into one dataframe
 deltaox_all <- data.frame(
   DateTime = compare_wind$DateTime,
@@ -1643,9 +1901,8 @@ compare_wind$deltacyno <- compare_wind$cyno_max - compare_wind$cyno_zero
 # plot
 
 (cyno_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltacyno)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*CYNO),
-         title = "Cyno Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*CYNO))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -1676,9 +1933,8 @@ colnames(compare_cyno_mid) <- c('DateTime', 'cyno_zero', 'cyno_max')
 compare_cyno_mid$deltacyno <- compare_cyno_mid$cyno_max - compare_cyno_mid$cyno_zero
 
 (cyno_wind_mid <- ggplot(compare_cyno_mid, aes(x = DateTime, y = deltacyno)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*CYNO),
-         title = "Cyno Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*CYNO))+
     theme_classic())
 
 # bottom of loch
@@ -1705,10 +1961,37 @@ colnames(compare_cyno_bottom) <- c('DateTime', 'cyno_zero', 'cyno_max')
 compare_cyno_bottom$deltacyno <- compare_cyno_bottom$cyno_max - compare_cyno_bottom$cyno_zero
 
 (cyno_wind_bottom <- ggplot(compare_cyno_bottom, aes(x = DateTime, y = deltacyno)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*CYNO),
-         title = "Cyno Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*CYNO))+
     theme_classic())
+
+
+# remove axis titles
+cyno_wind_surface <- cyno_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+cyno_wind_mid <- cyno_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_cyno_wind <- cyno_wind_surface /
+    cyno_wind_mid /
+    cyno_wind_bottom +
+    plot_annotation(
+      title = "Cynobacteria Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "cyno_wind.png",
+  plot = final_cyno_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
+
 # Combine your three depths into one dataframe
 deltacyno_all <- data.frame(
   DateTime = compare_wind$DateTime,
@@ -1771,9 +2054,8 @@ compare_wind$deltadiat <- compare_wind$diat_max - compare_wind$diat_zero
 # plot
 
 (diat_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltadiat)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DIAT),
-         title = "Diat Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*DIAT))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -1804,9 +2086,8 @@ colnames(compare_diat_mid) <- c('DateTime', 'diat_zero', 'diat_max')
 compare_diat_mid$deltadiat <- compare_diat_mid$diat_max - compare_diat_mid$diat_zero
 
 (diat_wind_mid <- ggplot(compare_diat_mid, aes(x = DateTime, y = deltadiat)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DIAT),
-         title = "Diat Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*DIAT))+
     theme_classic())
 
 # bottom of loch
@@ -1833,10 +2114,37 @@ colnames(compare_diat_bottom) <- c('DateTime', 'diat_zero', 'diat_max')
 compare_diat_bottom$deltadiat <- compare_diat_bottom$diat_max - compare_diat_bottom$diat_zero
 
 (diat_wind_bottom <- ggplot(compare_diat_bottom, aes(x = DateTime, y = deltadiat)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*DIAT),
-         title = "Diat Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*DIAT))+
     theme_classic())
+
+# remove axis titles
+diat_wind_surface <- diat_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+diat_wind_mid <- diat_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_diat_wind <- diat_wind_surface /
+    diat_wind_mid /
+    diat_wind_bottom +
+    plot_annotation(
+      title = "Diatom Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "diat_wind.png",
+  plot = final_diat_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
+
+
 # Combine your three depths into one dataframe
 deltadiat_all <- data.frame(
   DateTime = compare_wind$DateTime,
@@ -1884,6 +2192,7 @@ wind_max <- get_var('output_windMAX.nc',
                     var_name = 'PHY_bga',
                     reference = 'surface')
 
+
 # check column names
 colnames(wind_0)
 colnames(wind_max)
@@ -1901,9 +2210,8 @@ compare_wind$deltabga <- compare_wind$bga_max - compare_wind$bga_zero
 # plot
 
 (bga_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltabga)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*BGA),
-         title = "Blue Green algae Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*BGA))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -1934,9 +2242,8 @@ colnames(compare_bga_mid) <- c('DateTime', 'bga_zero', 'bga_max')
 compare_bga_mid$deltabga <- compare_bga_mid$bga_max - compare_bga_mid$bga_zero
 
 (bga_wind_mid <- ggplot(compare_bga_mid, aes(x = DateTime, y = deltabga)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*BGA),
-         title = "Blue Green algae Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*BGA))+
     theme_classic())
 
 # bottom of loch
@@ -1963,10 +2270,35 @@ colnames(compare_bga_bottom) <- c('DateTime', 'bga_zero', 'bga_max')
 compare_bga_bottom$deltabga <- compare_bga_bottom$bga_max - compare_bga_bottom$bga_zero
 
 (bga_wind_bottom <- ggplot(compare_bga_bottom, aes(x = DateTime, y = deltabga)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*BGA),
-         title = "Blue Green algae Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*BGA))+
     theme_classic())
+
+# remove axis titles
+bga_wind_surface <- bga_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+bga_wind_mid <- bga_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_bga_wind <- bga_wind_surface /
+    bga_wind_mid /
+    bga_wind_bottom +
+    plot_annotation(
+      title = "Blue Green Algae Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "bga_wind.png",
+  plot = final_bga_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 
 deltabga_all <- data.frame(
   DateTime = compare_wind$DateTime,
@@ -2027,9 +2359,8 @@ compare_wind$deltagreen <- compare_wind$green_max - compare_wind$green_zero
 # plot
 
 (green_wind_surface <- ggplot(compare_wind, aes(x = DateTime, y = deltagreen)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*GREEN),
-         title = "Greens Sensitivity to Wind Extremes at Surface") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*GREEN))+
     theme_classic())
 ## CHANGE ALL RELATIVE TO TEMP !!!
 
@@ -2060,9 +2391,8 @@ colnames(compare_green_mid) <- c('DateTime', 'green_zero', 'green_max')
 compare_green_mid$deltagreen <- compare_green_mid$green_max - compare_green_mid$green_zero
 
 (green_wind_mid <- ggplot(compare_green_mid, aes(x = DateTime, y = deltagreen)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*GREEN),
-         title = "Greens Sensitivity to Wind Extremes at Middle") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*GREEN))+
     theme_classic())
 
 # bottom of loch
@@ -2089,10 +2419,35 @@ colnames(compare_green_bottom) <- c('DateTime', 'green_zero', 'green_max')
 compare_green_bottom$deltagreen <- compare_green_bottom$green_max - compare_green_bottom$green_zero
 
 (green_wind_bottom <- ggplot(compare_green_bottom, aes(x = DateTime, y = deltagreen)) +
-    geom_line(colour = 'red',linewidth = 1) +
-    labs(y = expression(Delta*GREEN),
-         title = "Greens Sensitivity to Windspeed Extremes at Bottom") +
+    geom_line(colour = 'blue',linewidth = 1) +
+    labs(y = expression(Delta*GREEN))+
     theme_classic())
+
+# remove axis titles
+green_wind_surface <- green_wind_surface +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+
+green_wind_mid <- green_wind_mid +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_blank(),
+        axis.ticks.x = element_blank())
+library(patchwork)
+
+(final_green_wind <- green_wind_surface /
+    green_wind_mid /
+    green_wind_bottom +
+    plot_annotation(
+      title = "Green Algae Sensitivity to Windspeed Extremes"
+    ))
+ggsave(
+  filename = "greens_wind.png",
+  plot = final_green_wind,
+  width = 8,
+  height = 6,
+  dpi = 600
+)
 
 # Combine your three depths into one dataframe
 deltagreen_all <- data.frame(

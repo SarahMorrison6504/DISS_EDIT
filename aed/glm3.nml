@@ -55,8 +55,8 @@
    the_sals = 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5
 /
 &output
-   out_dir = 'sensitivity/sensitivity_output'
-   out_fn = 'output_windMIN'
+   out_dir = 'scenarios/scenario_outputs'
+   out_fn = 'output_baseline'
    nsave = 1
    csv_lake_fname = 'lake'
    csv_point_nlevs = 10
@@ -75,7 +75,7 @@
    rad_mode = 1
    albedo_mode = 1
    cloud_mode = 4
-   meteo_fl = 'sensitivity/met(lowWind).csv'
+   meteo_fl = 'scenarios/met_baseline.csv'
    subdaily = .false.
    wind_factor = 0.7
    sw_factor = 1
