@@ -42,10 +42,10 @@
 &time
    timefmt = 2
    start = '2016-01-01 00:00:00'
-   stop = '2016-12-31 00:00:00'
+   stop = '2018-12-31 00:00:00'
    dt = 86400
    timezone = 0
-   num_days = 365
+   num_days = 1095
 /
 &init_profiles
    lake_depth = 10
@@ -55,7 +55,7 @@
    the_sals = 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5
 /
 &output
-   out_dir = 'scenarios/scenario_outputs'
+   out_dir = 'output'
    out_fn = 'output_baseline'
    nsave = 1
    csv_lake_fname = 'lake'
@@ -75,7 +75,7 @@
    rad_mode = 1
    albedo_mode = 1
    cloud_mode = 4
-   meteo_fl = 'scenarios/met_baseline.csv'
+   meteo_fl = 'met.csv'
    subdaily = .false.
    wind_factor = 0.7
    sw_factor = 1
