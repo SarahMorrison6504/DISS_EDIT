@@ -3,7 +3,7 @@
 
 
 rm(list = ls())
-setwd('C:/Users/Sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT')
+setwd('C:/Users/Sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed')
 library(glmtools)
 library(ncdf4)
 library(ggplot2)
@@ -90,8 +90,10 @@ compare_phs <- merge(model_phs, obs_phs, by = "Date")
 
 # Rename columns for clarity
 colnames(compare_phs) <- c("Date", "Model", "Observed")
+compare_phs_filtered <- compare_phs %>%
+  filter(Date >= as.Date("2016-01-01") & Date <= as.Date("2016-12-31"))
 
-ggplot(compare_phs, aes(x = Date)) +
+ggplot(compare_phs_filtered, aes(x = Date)) +
   geom_line(aes(y = Model, colour = "Model"), linewidth = 1) +
   geom_line(aes(y = Observed, colour = "Observed"), size = 2) +
   scale_colour_manual(values = c("Model" = "blue",
@@ -104,10 +106,13 @@ ggplot(compare_phs, aes(x = Date)) +
   scale_y_continuous(limits = c(0,1.5))
 
 # get rmse
-rmse <- sqrt(mean((compare_phs$Model - compare_phs$Observed)^2, 
+rmse_phs <- sqrt(mean((compare_phs_filtered$Model - compare_phs_filtered$Observed)^2, 
                   na.rm = TRUE))
 # print rmse
-rmse
+rmse_phs
+
+#mae
+mae(compare_phs_filtered$Model,compare_phs_filtered$Observed)
 
 ## FOR SURFACE TEMP ----
 ncfile <- "output/output_baseline.nc"
@@ -144,8 +149,12 @@ compare_temp <- merge(model_temp, obs_temp, by = "Date")
 # Rename for clarity
 colnames(compare_temp) <- c("Date", "Model", "Observed")
 
+# filter to only be 2016
+compare_temp_filtered <- compare_temp %>%
+  filter(Date >= as.Date("2016-01-01") & Date <= as.Date("2016-12-31"))
+
 # plot
-ggplot(compare_temp, aes(x = Date)) +
+ggplot(compare_temp_filtered, aes(x = Date)) +
   geom_line(aes(y = Model, colour = "Model"), linewidth = 1) +
   geom_point(aes(y = Observed, colour = "Observed"), size = 2) +
   scale_colour_manual(values = c("Model" = "blue",
@@ -157,11 +166,16 @@ ggplot(compare_temp, aes(x = Date)) +
   theme(legend.position = "top")
 
 #rmse
-rmse <- sqrt(mean((compare_temp$Model - compare_temp$Observed)^2, 
+rmse_temp <- sqrt(mean((compare_temp_filtered$Model - compare_temp_filtered$Observed)^2, 
                 na.rm = TRUE))
 # print rmse
-rmse
+rmse_temp
 
+# mae
+install.packages('Metrics')
+library(Metrics)
+mae_temp <- mae(compare_temp_filtered$Model, compare_temp_filtered$Observed)
+mae_temp
 
 ## Cyno: Model vs Observed----
 library(ggplot2)
@@ -200,14 +214,26 @@ obs_cyno <- obs_cyno[!is.na(obs_cyno$Observed), ]
 # Merge model and observed data (left join to keep all model dates)
 compare_cyno <- merge(model_cyno, obs_cyno, by = "Date", all.x = TRUE)
 
+
+compare_cyno_filtered <- compare_cyno %>%
+  filter(Date >= as.Date("2016-01-01") & Date <= as.Date("2016-12-31"))
+
+# find rmse
+rmse <- sqrt(mean((compare_cyno_filtered$Model - compare_cyno_filtered$Observed)^2, na.rm = TRUE))
+rmse
+
+# mae
+mae_cyno <- mae(compare_cyno_filtered$Model, compare_cyno_filtered$Observed)
+mae_cyno
+
 # Reshape to long format for ggplot
-compare_long <- compare_cyno %>%
+compare_long <- compare_cyno_filtered %>%
   pivot_longer(cols = c("Model", "Observed"),
                names_to = "Source",
                values_to = "Cyno")
 
 # Plot
-ggplot(compare_long, aes(x = Date, y = Cyno, colour = Source)) +
+ggplot(compare_cyno_filtered, aes(x = Date, y = Cyno, colour = Source)) +
   geom_line(data = subset(compare_long, Source == "Model"), linewidth = 1) +
   geom_point(data = subset(compare_long, Source == "Observed"), size = 2) +
   scale_colour_manual(values = c("Model" = "blue", "Observed" = "red")) +
@@ -217,7 +243,7 @@ ggplot(compare_long, aes(x = Date, y = Cyno, colour = Source)) +
   theme_classic() +
   theme(legend.position = "top")
 #rmse
-rmse <- sqrt(mean((compare_cyno$Model - compare_cyno$Observed)^2, 
+rmse <- sqrt(mean((compare_long$Model - compare_long$Observed)^2, 
                   na.rm = TRUE))
 # print rmse
 rmse
@@ -260,14 +286,28 @@ obs_diat <- obs_diat[!is.na(obs_diat$Observed), ]
 # Merge model and observed data (left join to keep all model dates)
 compare_diat <- merge(model_diat, obs_diat, by = "Date", all.x = TRUE)
 
+# make only 2016
+compare_diat_filtered <- compare_diat %>%
+  filter(Date >= as.Date("2016-01-01") & Date <= as.Date("2016-12-31"))
+
+# get rid of nas
+compare_diat_clean <- compare_diat_filtered %>%
+  filter(!is.na(Model) & !is.na(Observed))
+# find rmse
+rmse <- sqrt(mean((compare_diat_filtered$Model - compare_diat_filtered$Observed)^2, na.rm = TRUE))
+rmse
+
+mae(compare_diat_clean$Model, compare_diat_clean$Observed )
+
+
 # Reshape to long format for ggplot
-compare_long <- compare_diat %>%
+compare_long <- compare_diat_filtered %>%
   pivot_longer(cols = c("Model", "Observed"),
                names_to = "Source",
-               values_to = "diat")
+               values_to = "Diat")
 
 # Plot
-ggplot(compare_long, aes(x = Date, y = diat, colour = Source)) +
+ggplot(compare_long, aes(x = Date, y = Diat, colour = Source)) +
   geom_line(data = subset(compare_long, Source == "Model"), linewidth = 1) +
   geom_point(data = subset(compare_long, Source == "Observed"), size = 2) +
   scale_colour_manual(values = c("Model" = "blue", "Observed" = "red")) +
@@ -276,11 +316,13 @@ ggplot(compare_long, aes(x = Date, y = diat, colour = Source)) +
        title = "Surface Diatoms: Model vs Observed") +
   theme_classic() +
   theme(legend.position = "top")
+
 #rmse
 rmse <- sqrt(mean((compare_diat$Model - compare_diat$Observed)^2, 
                   na.rm = TRUE))
 # print rmse
 rmse
+mae(compare_diat$Model, compare_diat$Observed)
 
 ## greens----
 
@@ -321,6 +363,27 @@ obs_green <- obs_green[!is.na(obs_green$Observed), ]
 # Merge model and observed data (left join to keep all model dates)
 compare_green <- merge(model_green, obs_green, by = "Date", all.x = TRUE)
 
+# make only 2016
+compare_green_filtered <- compare_green %>%
+  filter(Date >= as.Date("2016-01-01") & Date <= as.Date("2016-12-31"))
+
+# get rid of nas
+compare_green_clean <- compare_green_filtered %>%
+  filter(!is.na(Model) & !is.na(Observed))
+
+# find rmse
+rmse <- sqrt(mean((compare_green_clean$Model - compare_green_clean$Observed)^2, na.rm = TRUE))
+rmse
+
+#find mae
+mae_green <- mae(compare_green_clean$Model, compare_green_clean$Observed )
+mae_green
+
+# Reshape to long format for ggplot
+compare_long <- compare_diat_filtered %>%
+  pivot_longer(cols = c("Model", "Observed"),
+               names_to = "Source",
+               values_to = "Diat")
 # Reshape to long format for ggplot
 compare_long <- compare_green %>%
   pivot_longer(cols = c("Model", "Observed"),

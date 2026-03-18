@@ -1,6 +1,4 @@
-solar_min <- 0.5     # min solar
-solar_max <- 250   # max solar
-solar_range <- solar_max - solar_min
+
 
 ## solar_temp----
 ## load libraries
@@ -11,6 +9,10 @@ library(dplyr)
 library(patchwork)
 
 setwd("C:/Users/Sarah/OneDrive/Dissertation/DISS(EDIT)/DISS_EDIT/aed/sensitivity/sensitivity_output")
+
+solar_min <- 0.5     # min solar
+solar_max <- 250   # max solar
+solar_range <- solar_max - solar_min
 
 temp_min <- get_var("output_solar0.nc", var_name = "temp", reference = "surface")
 temp_max <- get_var("output_solarMAX.nc", var_name = "temp", reference = "surface")
@@ -52,6 +54,54 @@ delta_all <- data.frame(
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
 
+# seasonal 
+library(lubridate)
+library(dplyr)
+
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+  group_by(season) %>%
+  summarise(mean_deltaT = mean(deltaT, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+  group_by(season) %>%
+  summarise(mean_deltaT = mean(deltaT, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+  group_by(season) %>%
+  summarise(mean_deltaT = mean(deltaT, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+  group_by(season) %>%
+  summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+  group_by(season) %>%
+  summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+  group_by(season) %>%
+  summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+
 # plot
 library(ggplot2)
 library(patchwork)
@@ -86,16 +136,16 @@ p_bottom <- ggplot(bottom, aes(x = DateTime, y = deltaT)) +
 solar_min <- 0.5     # min solar
 solar_max <- 250   # max solar
 solar_range <- solar_max - solar_min
-do_min <- get_var("output_solar0.nc", var_name = "do_do", reference = "surface")
-do_max <- get_var("output_solarMAX.nc", var_name = "do_do", reference = "surface")
+nit_min <- get_var("output_solar0.nc", var_name = "NIT_nit", reference = "surface")
+nit_max <- get_var("output_solarMAX.nc", var_name = "NIT_nit", reference = "surface")
 
-calc_deltado <- function(depth_col) {
+calc_deltanit <- function(depth_col) {
   
-  df_min <- do_min[, c("DateTime", depth_col)]
-  df_max <- do_max[, c("DateTime", depth_col)]
+  df_min <- nit_min[, c("DateTime", depth_col)]
+  df_max <- nit_max[, c("DateTime", depth_col)]
   
-  colnames(df_min)[2] <- "do_min"
-  colnames(df_max)[2] <- "do_max"
+  colnames(df_min)[2] <- "nit_min"
+  colnames(df_max)[2] <- "nit_max"
   
   df <- merge(df_min, df_max, by = "DateTime")
   
@@ -125,6 +175,52 @@ delta_all <- data.frame(
 (mean_sensitivity_surface <- mean(abs(surface$sensitivity), na.rm = TRUE))
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
+
+
+## add for season
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_deltanit = mean(deltanit, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_deltanit = mean(deltanit, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_deltanit = mean(deltanit, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
 
 # plot
 library(ggplot2)
@@ -200,6 +296,51 @@ delta_all <- data.frame(
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
 
+# add for season
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_deltaphs = mean(deltaphs, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_deltaphs = mean(deltaphs, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_deltaphs = mean(deltaphs, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+
 # plot
 library(ggplot2)
 library(patchwork)
@@ -274,6 +415,52 @@ delta_all <- data.frame(
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
 
+# add for season
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_deltado = mean(deltado, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_deltado = mean(deltado, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_deltado = mean(deltado, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+
+
 # plot
 library(ggplot2)
 library(patchwork)
@@ -346,6 +533,52 @@ delta_all <- data.frame(
 (mean_sensitivity_surface <- mean(abs(surface$sensitivity), na.rm = TRUE))
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
+
+# add for season
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_deltacyno = mean(deltacyno, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_deltacyno = mean(deltacyno, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_deltacyno = mean(deltacyno, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+
 
 # plot
 library(ggplot2)
@@ -422,6 +655,53 @@ delta_all <- data.frame(
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
 
+
+# add for season
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_deltadiat = mean(deltadiat, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_deltadiat = mean(deltadiat, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_deltadiat = mean(deltadiat, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+
+
 # plot
 library(ggplot2)
 library(patchwork)
@@ -496,6 +776,53 @@ delta_all <- data.frame(
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
 
+
+# add for season
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_deltabga = mean(deltabga, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_deltabga = mean(deltabga, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_deltabga = mean(deltabga, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+
+
 # plot
 library(ggplot2)
 library(patchwork)
@@ -569,6 +896,52 @@ delta_all <- data.frame(
 (mean_sensitivity_surface <- mean(abs(surface$sensitivity), na.rm = TRUE))
 (mean_sensitivity_middle  <- mean(abs(middle$sensitivity), na.rm = TRUE))
 (mean_sensitivity_bottom  <- mean(abs(bottom$sensitivity), na.rm = TRUE))
+
+
+
+# add for season
+add_season <- function(df){
+  df %>%
+    mutate(
+      month = month(DateTime),
+      season = case_when(
+        month %in% c(12,1,2)  ~ "Winter",
+        month %in% c(3,4,5)   ~ "Spring",
+        month %in% c(6,7,8)   ~ "Summer",
+        month %in% c(9,10,11) ~ "Autumn"
+      )
+    )
+}
+
+surface <- add_season(surface)
+middle  <- add_season(middle)
+bottom  <- add_season(bottom)
+
+# calculate delta for seasons
+(seasonal_delta_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_deltagreen = mean(deltagreen, na.rm = TRUE)))
+
+(seasonal_delta_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_deltagreen = mean(deltagreen, na.rm = TRUE)))
+
+(seasonal_delta_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_deltagreen = mean(deltagreen, na.rm = TRUE)))
+
+# calculate sensitivity coefficient
+(seasonal_sens_surface <- surface %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_middle <- middle %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
+
+(seasonal_sens_bottom <- bottom %>%
+    group_by(season) %>%
+    summarise(mean_sensitivity = mean(abs(sensitivity), na.rm = TRUE)))
 
 # plot
 library(ggplot2)
