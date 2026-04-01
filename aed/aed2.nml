@@ -413,16 +413,16 @@
 !-------------------------------------------------------------------------------
 &aed2_phytoplankton
 !-- Configure phytoplankton groups to simulate
-  num_phytos = 4
-  the_phytos = 1,2,3,4
-  settling   = 1,1,1,1
+  num_phytos = 3
+  the_phytos = 1,2,3
+  settling   = 1,1,1
 !-- Benthic phytoplankton group (microphytobenthos)
   do_mpb = 0          ! turn this on for benthic photosynthesis in chosen zones
   R_mpbg = 0.5
   R_mpbr = 0.05
   I_Kmpb = 100.
   mpb_max = 2000.
-  resuspension = 0.1,0.2,0.3,0.4
+  resuspension = 0.1,0.2,0.3
   resus_link   = 'NCS_resus'
   n_zones = 2
   active_zones = 1,2
